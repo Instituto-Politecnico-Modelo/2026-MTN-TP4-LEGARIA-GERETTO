@@ -99,14 +99,3 @@ classDiagram
     Popularidad ..> Icono : usa
     Popularidad ..> Cancion : recibe
 ```
-
-## Diagrama de transición de estados
-
-```mermaid
-stateDiagram-v2
-    [*] --> Normal
-    Normal --> Auge : reproducciones > 1000
-    Auge --> Tendencia : reproducciones > 50000 AND likes > 20000
-    Auge --> Normal : dislikes >= 5000
-    Tendencia --> Normal : 24hs sin reproducción
-```

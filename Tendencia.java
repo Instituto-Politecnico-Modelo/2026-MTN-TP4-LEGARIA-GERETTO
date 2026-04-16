@@ -24,7 +24,7 @@ public class Tendencia extends Popularidad {
     }
 
     public void verificarInactividad(Cancion cancion) {
-        long horasSinReproduccion = ChronoUnit.HOURS.between(cancion.getUltimaReproduccion(), LocalDateTime.now());
+        int horasSinReproduccion = (int) ChronoUnit.HOURS.between(cancion.getUltimaReproduccion(), LocalDateTime.now());
         if (horasSinReproduccion >= 24) {
             cancion.cambiarPopularidad(new Normal());
         }
