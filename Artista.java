@@ -5,7 +5,6 @@ public class Artista {
         this.nombre = nombre;
     }
 
-    // Retorna el nombre del artista
     public String getNombre() {
         return nombre;
     }

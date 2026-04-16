@@ -7,12 +7,10 @@ public class Album {
         this.anio = anio;
     }
 
-    // Retorna el nombre del album
     public String getNombre() {
         return nombre;
     }
 
-    // Retorna el anio del album
     public int getAnio() {
         return anio;
     }
