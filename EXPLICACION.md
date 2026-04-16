@@ -1,69 +1,69 @@
-# 🎵 ¿Cómo funciona el sistema de Tendencias Musicales?
+# Sistema de Tendencias Musicales - Patrón State
 
-## 🧩 La idea principal
+## Descripción general
 
-Imaginate que una **canción** es como un dibujito que pintás en el jardín.
-
-- Cuando lo pintás, **nadie lo conoce** todavía → es **Normal** 🎵
-- Si a muchos nenes les gusta y lo miran mucho → se pone **En Auge** 🚀 (¡como un cohete!)
-- Si MUCHÍSIMA gente lo mira y le da "me gusta" → se vuelve **Tendencia** 🔥 (¡está en llamas de lo popular!)
+El sistema modela la popularidad de una canción usando el patrón de diseño **State**. Una canción tiene un estado de popularidad que puede ser: **Normal**, **Auge** o **Tendencia**. Cada estado define su propio icono, formato de leyenda y reglas de transición a otros estados.
 
 ---
 
-## 🔄 ¿Cómo cambia de estado?
-
-Pensá en un semáforo, pero en vez de colores tiene **3 caritas**:
+## Estados y transiciones
 
 ```
-🎵 Normal  ──(mucha gente lo escucha)──▶  🚀 Auge
-🚀 Auge    ──(MUCHA más gente + likes)──▶  🔥 Tendencia
-🚀 Auge    ──(mucha gente dice "no me gusta")──▶  🎵 Normal
-🔥 Tendencia ──(nadie lo escucha en todo un día)──▶  🎵 Normal
+Normal  ──(>1000 reproducciones)──▶  Auge
+Auge    ──(>50000 repro + >20000 likes)──▶  Tendencia
+Auge    ──(>=5000 dislikes)──▶  Normal
+Tendencia ──(24hs sin reproducción)──▶  Normal
 ```
 
-### 🎵 Normal (la canción es nueva)
-- Tiene el dibujito de una **nota musical** 🎵
-- Muestra: *quién canta - el disco - el nombre de la canción*
-- Si **más de 1000 personas** la escuchan → sube a 🚀
+### Normal
+- **Icono:** Musical Note 🎵
+- **Formato de leyenda:** `Nombre del artista - Nombre del álbum - Título de la canción`
+- **Transición:** Cuando supera las 1000 reproducciones en este estado, pasa a **Auge**.
 
-### 🚀 En Auge (la canción está creciendo)
-- Tiene el dibujito de un **cohete** 🚀
-- Muestra: *quién canta - la canción (el disco - el año)*
-- Si **más de 50.000** la escuchan Y **más de 20.000** le dan like → sube a 🔥
-- Si **5.000 personas** le dan "no me gusta" → baja a 🎵
+### Auge
+- **Icono:** Rocket 🚀
+- **Formato de leyenda:** `Nombre del artista - Título de la canción (Nombre del álbum - año del álbum)`
+- **Transiciones:**
+  - Si supera 50.000 reproducciones **y** tiene más de 20.000 likes → pasa a **Tendencia**.
+  - Si alcanza 5.000 dislikes → vuelve a **Normal**.
 
-### 🔥 Tendencia (¡la canción es súper famosa!)
-- Tiene el dibujito de **fuego** 🔥
-- Muestra: *la canción - quién canta (el disco - el año)*
-- Si **nadie la escucha en todo un día** → vuelve a 🎵
-
----
-
-## 🏗️ ¿Cómo está armado? (Patrón State)
-
-Hay **cajitas** (clases) y cada una tiene un trabajo:
-
-| Cajita | ¿Qué hace? |
-|---|---|
-| 🎤 **Cancion** | Es la canción. Sabe su nombre, quién la canta y en qué disco está. Le pregunta a su "carita" (estado) qué mostrar. |
-| 🎨 **Popularidad** | Es la regla general. Dice: "toda carita tiene que saber mostrar un icono y una leyenda". |
-| 🎵 **Normal** | Una carita. Sabe qué hacer cuando la canción es nueva. |
-| 🚀 **Auge** | Otra carita. Sabe qué hacer cuando la canción está creciendo. |
-| 🔥 **Tendencia** | Otra carita. Sabe qué hacer cuando la canción es súper famosa. |
-| 🧑‍🎤 **Artista** | Guarda el nombre del cantante (ej: "Coldplay"). |
-| 💿 **Album** | Guarda el nombre del disco y el año (ej: "A Rush of Blood to the Head", 2002). |
-| 😀 **Icono** | Guarda los dibujitos (emojis) para cada carita. |
+### Tendencia
+- **Icono:** Fire 🔥
+- **Formato de leyenda:** `Título de la canción - Nombre del artista (Nombre del álbum - año del álbum)`
+- **Transición:** Si no fue reproducida durante las últimas 24 horas → vuelve a **Normal**.
 
 ---
 
-## 🎯 Ejemplo con "The Scientist" de Coldplay
+## Estructura de clases
 
-1. **Sale la canción** → 🎵 `Coldplay - A Rush of Blood to the Head - The Scientist`
-2. **La escuchan 1001 veces** → 🚀 `Coldplay - The Scientist (A Rush of Blood to the Head - 2002)`
-3. **5000 personas le dan "no me gusta"** → 🎵 vuelve a ser Normal
-4. **La escuchan muchísimo + muchos likes** → 🔥 `The Scientist - Coldplay (A Rush of Blood to the Head - 2002)`
-5. **Nadie la escucha en 24 horas** → 🎵 vuelve a ser Normal
+| Clase | Rol en el patrón | Descripción |
+|---|---|---|
+| **Cancion** | Contexto | Contiene el título, artista, álbum y una referencia al estado actual de popularidad. Delega las acciones (reproducir, darLike, darDislike) al estado. |
+| **Popularidad** | State (abstracto) | Clase abstracta que define los métodos que cada estado concreto debe implementar: `getIcono()`, `getLeyenda()`, `reproducir()`, `darLike()`, `darDislike()`, `pasaron24HsSinReproduccion()`. |
+| **Normal** | Estado concreto | Implementa el comportamiento cuando la canción tiene popularidad normal. Cuenta reproducciones y transiciona a Auge. |
+| **Auge** | Estado concreto | Implementa el comportamiento cuando la canción está en auge. Cuenta reproducciones, likes y dislikes para decidir si transiciona a Tendencia o vuelve a Normal. |
+| **Tendencia** | Estado concreto | Implementa el comportamiento cuando la canción es tendencia. Transiciona a Normal si pasan 24hs sin reproducción. |
+| **Artista** | Modelo | Almacena el nombre del artista. |
+| **Album** | Modelo | Almacena el nombre y año del álbum. |
+| **Icono** | Utilidad | Almacena la codificación de los emojis y los convierte a texto. |
 
 ---
 
-> **En resumen:** La canción tiene una "carita" que cambia según cuánta gente la escucha. Cada carita sabe qué dibujito mostrar y cuándo cambiar a otra carita. ¡Eso es el patrón State! 🧩
+## Funcionamiento del patrón State
+
+1. `Cancion` tiene un atributo `popularidad` de tipo `Popularidad` (la clase abstracta).
+2. Cuando se llama a `cancion.reproducir()`, la canción delega la llamada al estado actual: `popularidad.reproducir(this)`.
+3. Cada estado concreto (`Normal`, `Auge`, `Tendencia`) implementa la lógica de transición. Cuando se cumple una condición, el estado cambia la popularidad de la canción llamando a `cancion.setPopularidad(new OtroEstado())`.
+4. Al llamar a `cancion.mostrarDetalle()`, se delega al estado actual, que retorna el string con formato `icono-leyenda` según sus propias reglas.
+
+---
+
+## Ejemplo con datos de prueba
+
+Canción: "The Scientist" | Artista: "Coldplay" | Álbum: "A Rush of Blood to the Head" (2002)
+
+1. **Canción recién lanzada (Normal):** `🎵-Coldplay - A Rush of Blood to the Head - The Scientist`
+2. **Supera 1000 reproducciones (Auge):** `🚀-Coldplay - The Scientist (A Rush of Blood to the Head - 2002)`
+3. **Recibe 5000 dislikes (vuelve a Normal):** `🎵-Coldplay - A Rush of Blood to the Head - The Scientist`
+4. **Supera 50000 reproducciones + 20000 likes (Tendencia):** `🔥-The Scientist - Coldplay (A Rush of Blood to the Head - 2002)`
+5. **24hs sin reproducción (vuelve a Normal):** `🎵-Coldplay - A Rush of Blood to the Head - The Scientist`
