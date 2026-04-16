@@ -1,8 +1,19 @@
-import java.util.HashMap;
-import java.util.HashSet;
-
 public class Album {
-    private HashSet<Cancion> canciones;
     private String nombre;
-    private HashSet<Artista> autores;
+    private int anio;
+
+    public Album(String nombre, int anio) {
+        this.nombre = nombre;
+        this.anio = anio;
+    }
+
+    // Retorna el nombre del album
+    public String getNombre() {
+        return nombre;
+    }
+
+    // Retorna el anio del album
+    public int getAnio() {
+        return anio;
+    }
 }
