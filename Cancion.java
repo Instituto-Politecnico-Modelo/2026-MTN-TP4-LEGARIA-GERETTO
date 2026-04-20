@@ -10,17 +10,18 @@ public class Cancion {
     private int likes;
     private int dislikes;
 
-    public Cancion(String titulo, Artista artista, Album album) {
+
+    public Cancion(String titulo, Artista artista, Album album, Popularidad popularidad,
+            LocalDateTime ultimaReproduccion, int reproduccionesTotales, int likes, int dislikes) {
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
-        this.popularidad = new Normal();
-        this.ultimaReproduccion = LocalDateTime.now();
-        this.reproduccionesTotales = 0;
-        this.likes = 0;
-        this.dislikes = 0;
+        this.popularidad = popularidad;
+        this.ultimaReproduccion = ultimaReproduccion;
+        this.reproduccionesTotales = reproduccionesTotales;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
-
     public void reproducir() {
         this.reproduccionesTotales++;
         popularidad.reproducir(this);

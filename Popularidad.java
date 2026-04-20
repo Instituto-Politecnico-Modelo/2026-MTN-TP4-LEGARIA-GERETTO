@@ -1,5 +1,7 @@
 public abstract class Popularidad {
 
+    protected int reproduccionesEnEstado;
+
     public String mostrarDetalle(Cancion cancion) {
         return getIcono().texto() + "-" + getLeyenda(cancion);
     }

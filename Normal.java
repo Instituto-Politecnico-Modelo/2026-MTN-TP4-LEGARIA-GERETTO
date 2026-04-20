@@ -1,4 +1,6 @@
 public class Normal extends Popularidad {
+    
+
 
     public Icono getIcono() {
         return Icono.MUSICAL_NOTE;
@@ -11,7 +13,8 @@ public class Normal extends Popularidad {
     }
 
     public void reproducir(Cancion cancion) {
-        if (cancion.getReproduccionesTotales() > 1000) {
+        reproduccionesEnEstado++;
+        if (reproduccionesEnEstado > 1000) {
             cancion.cambiarPopularidad(new Auge());
         }
     }
