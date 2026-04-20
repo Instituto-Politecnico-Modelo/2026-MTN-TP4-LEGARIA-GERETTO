@@ -12,15 +12,11 @@ public class Auge extends Popularidad {
     }
 
     public void reproducir(Cancion cancion) {
-        reproduccionesEnEstado++;
-        if (cancion.getDislikes() >= 5000 || reproduccionesEnEstado < 1000) {
+        reproduccionesAux++;
+        if (cancion.getDislikes() >= 5000 || reproduccionesAux < 1000) {
             cancion.cambiarPopularidad(new Normal());
-        } else if (reproduccionesEnEstado > 50000 && cancion.getLikes() > 20000) {
+        } else if (reproduccionesAux > 50000 && cancion.getLikes() > 20000) {
             cancion.cambiarPopularidad(new Tendencia());
         }
-    }
-
-    public void verificarInactividad(Cancion cancion) {
-        // En Auge, no se realiza acción por inactividad
     }
 }

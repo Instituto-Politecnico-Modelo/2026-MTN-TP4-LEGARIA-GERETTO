@@ -13,13 +13,9 @@ public class Normal extends Popularidad {
     }
 
     public void reproducir(Cancion cancion) {
-        reproduccionesEnEstado++;
-        if (reproduccionesEnEstado > 1000) {
+        reproduccionesAux++;
+        if (reproduccionesAux > 1000) {
             cancion.cambiarPopularidad(new Auge());
         }
-    }
-
-    public void verificarInactividad(Cancion cancion) {
-        // En estado Normal, no se realiza acción por inactividad
     }
 }

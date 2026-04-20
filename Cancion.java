@@ -47,16 +47,13 @@ public class Cancion {
         return dislikes;
     }
 
-    public void verificarInactividad() {
-        popularidad.verificarInactividad(this);
-    }
-
     public String mostrarDetalle() {
         return popularidad.mostrarDetalle(this);
     }
 
     public void cambiarPopularidad(Popularidad nuevaPopularidad) {
         this.popularidad = nuevaPopularidad;
+        this.popularidad.reproduccionesAux = 0;
     }
 
     public Popularidad getPopularidad() {
