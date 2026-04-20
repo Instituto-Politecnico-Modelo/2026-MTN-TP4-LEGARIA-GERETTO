@@ -7,7 +7,5 @@ public abstract class Popularidad {
     public abstract Icono getIcono();
     public abstract String getLeyenda(Cancion cancion);
     public abstract void reproducir(Cancion cancion);
-    public abstract void darLike(Cancion cancion);
-    public abstract void darDislike(Cancion cancion);
     public abstract void verificarInactividad(Cancion cancion);
 }

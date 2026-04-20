@@ -6,6 +6,9 @@ public class Cancion {
     private Album album;
     private Popularidad popularidad;
     private LocalDateTime ultimaReproduccion;
+    private int reproduccionesTotales;
+    private int likes;
+    private int dislikes;
 
     public Cancion(String titulo, Artista artista, Album album) {
         this.titulo = titulo;
@@ -13,19 +16,34 @@ public class Cancion {
         this.album = album;
         this.popularidad = new Normal();
         this.ultimaReproduccion = LocalDateTime.now();
+        this.reproduccionesTotales = 0;
+        this.likes = 0;
+        this.dislikes = 0;
     }
 
     public void reproducir() {
-        this.ultimaReproduccion = LocalDateTime.now();
+        this.reproduccionesTotales++;
         popularidad.reproducir(this);
+        this.ultimaReproduccion = LocalDateTime.now();
+    }
+    public int getReproduccionesTotales() {
+        return reproduccionesTotales;
     }
 
     public void darLike() {
-        popularidad.darLike(this);
+        this.likes++;
     }
 
     public void darDislike() {
-        popularidad.darDislike(this);
+        this.dislikes++;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
     }
 
     public void verificarInactividad() {

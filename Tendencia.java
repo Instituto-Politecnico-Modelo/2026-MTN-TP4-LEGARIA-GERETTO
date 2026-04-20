@@ -15,12 +15,7 @@ public class Tendencia extends Popularidad {
     }
 
     public void reproducir(Cancion cancion) {
-    }
-
-    public void darLike(Cancion cancion) {
-    }
-
-    public void darDislike(Cancion cancion) {
+        // En Tendencia, la reproducción no cambia el estado
     }
 
     public void verificarInactividad(Cancion cancion) {

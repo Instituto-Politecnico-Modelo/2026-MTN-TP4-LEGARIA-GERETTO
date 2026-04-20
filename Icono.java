@@ -1,15 +1,15 @@
-public class Icono {
-    public static Icono MUSICAL_NOTE = new Icono(new int[]{0xD83C, 0xDFB5});
-    public static Icono ROCKET = new Icono(new int[]{0xD83D, 0xDE80});
-    public static Icono FIRE = new Icono(new int[]{0xD83D, 0xDD25});
+public enum Icono {
+    MUSICAL_NOTE("🎵"),
+    ROCKET("🚀"),
+    FIRE("🔥");
 
-    private int[] internalEncoding;
+    private final String texto;
 
-    Icono(int[] internalEncoding) {
-        this.internalEncoding = internalEncoding;
+    Icono(String texto) {
+        this.texto = texto;
     }
 
     public String texto() {
-        return new String(internalEncoding, 0, internalEncoding.length);
+        return texto;
     }
 }
